@@ -1,24 +1,60 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {Fragment,useState} from 'react';
+import Header from './components/Header';
+import Formulario from './components/Formulario';
+import Resumen from './components/Resumen';
+import Resultado from './components/Resultado';
+import Spinner from './components/Spinner';
+import styled from '@emotion/styled';
 
-function App() {
+const Contenedor = styled.div`
+  max-width: 600px;
+  margin: 0 auto;
+`;
+const ContenedorFormulario = styled.div`
+  background-color:#FFF;
+  padding: 3rem;
+`;
+
+
+function App() { // los style components tienen etiqueta de cierre o no dependiendo del componente que represente
+  
+  const [resumen, guardarResumen] = useState({});
+  const[cargando, guardarCargando] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Contenedor>
+
+      <Header
+        titulo="Cotizador de Seguros"    
+      />
+
+      <ContenedorFormulario>
+
+        <Formulario
+          guardarResumen={guardarResumen}
+          guardarCargando={guardarCargando}
+        />
+
+        {!cargando
+          ? <Fragment>
+              <Resumen
+                resumen={resumen}
+              />
+
+              <Resultado
+                resumen={resumen}
+              />
+
+            </Fragment>
+          
+          : <Spinner></Spinner>
+        }
+         
+      </ContenedorFormulario>
+
+
+    </Contenedor>
+    
   );
 }
 
